@@ -8,8 +8,8 @@ const AvatarLoader = () => (
     width={60}
     height={48}
     viewBox="0 0 60 48"
-    backgroundColor="#f3f3f3"
-    foregroundColor="#ecebeb">
+    backgroundColor="#222"
+    foregroundColor="#444">
         <circle cx="24" cy="24" r="24" />
     </ContentLoader> 
   )

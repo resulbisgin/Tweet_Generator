@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState ,createRef,useEffect} from "react";
 import {ReplyIcon,Retweet,Like, Share, Verified} from "./Icons"
 import { AvatarLoader } from "./Loaders";
+import { useScreenshot } from "use-react-screenshot";
 const tweetFormat=tweet=>{
   tweet=tweet.replace(/@([\wşçöğüıİ]+)/gi,'<span>@$1</span>')
   .replace(/#([\wşçöğüıİ]+)/gi,'<span>#$1</span>')
@@ -24,15 +25,29 @@ function App() {
       number[0] + (number[1] > 100 ? ',' + number[1].slice(0, 1) + ' B' : ' B')
     );
   };
+  const twref = createRef(null)
   const [name,setName]=useState();
   const [username,setUsername]=useState();
   const [isVerified,setIsverified]=useState(false)
   const [tweet,setTweet]=useState();
-  const [avatar,setAvatar]=useState();
   const [retweet,setRetweet]=useState(0);
   const [quoteTweets,setQuoteTweets]=useState(0);
   const [likes,setLikes]=useState(0);
+  const [avatar,setAvatar]=useState();
+  const [image, takeScreenshot] = useScreenshot()
+  const getImage = () => takeScreenshot(twref.current)
 
+    useEffect(()=>{
+      console.log(image)
+    },[image])
+  const avatarHandle=(e)=>{
+  const file= e.target.files[0];
+  const reader=new FileReader();
+  reader.addEventListener("load",function(){
+    setAvatar(this.result)
+  })
+  reader.readAsDataURL(file)
+  }
 
   return (
   <>
@@ -63,6 +78,13 @@ function App() {
             /> 
           </li>
           <li>
+            <input placeholder="Avatar" 
+            type="file"
+            className="input"
+            onChange={avatarHandle}
+            /> 
+          </li>
+          <li>
             <input type="number"
              className="input"
              placeholder="Retweet"
@@ -86,14 +108,17 @@ function App() {
              onChange={(e)=>setLikes(e.target.value)}
                />
           </li>
-          <button>Oluştur</button>
+          <button onClick={getImage}>Oluştur</button>
+          <div className="download-url">
+            {image && <a href={image} download="tweet.png">Tweeti İndir</a>}
+          </div>
         </ul>
     </div>
   <div className="tweet-container">
 
-  <div className="tweet">
+  <div className="tweet" ref={twref}>
    <div className='tweet-author'>
-    <img alt="profile"  src={avatar}/>
+   {avatar &&  <img alt="profile"  src={avatar} /> || <AvatarLoader/>}
     <div>
       <div className="name">{name||"Ad Soyad"}
       {isVerified && <Verified width='19' height="19"/>}
