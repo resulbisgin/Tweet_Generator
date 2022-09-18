@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {ReplyIcon,Retweet,Like, Share, Verified} from "./Icons"
+import { AvatarLoader } from "./Loaders";
 const tweetFormat=tweet=>{
   tweet=tweet.replace(/@([\wşçöğüıİ]+)/gi,'<span>@$1</span>')
   .replace(/#([\wşçöğüıİ]+)/gi,'<span>#$1</span>')
@@ -92,7 +93,7 @@ function App() {
 
   <div className="tweet">
    <div className='tweet-author'>
-    <img alt="profile"  src="https://pbs.twimg.com/profile_images/1565750320185081858/VG6qfxO6_400x400.jpg"/>
+    <img alt="profile"  src={avatar}/>
     <div>
       <div className="name">{name||"Ad Soyad"}
       {isVerified && <Verified width='19' height="19"/>}
