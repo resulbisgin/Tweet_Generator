@@ -26,6 +26,7 @@ function App() {
     );
   };
   const twref = createRef(null)
+  const downloadRef=createRef();
   const [name,setName]=useState();
   const [username,setUsername]=useState();
   const [isVerified,setIsverified]=useState(false)
@@ -38,9 +39,12 @@ function App() {
   const getImage = () => takeScreenshot(twref.current)
 
     useEffect(()=>{
-      console.log(image)
+      if(image){
+      downloadRef.current.click();
+      }
     },[image])
-  const avatarHandle=(e)=>{
+
+  const avatarHandle=e=>{
   const file= e.target.files[0];
   const reader=new FileReader();
   reader.addEventListener("load",function(){
@@ -48,7 +52,19 @@ function App() {
   })
   reader.readAsDataURL(file)
   }
-
+  const fetchTwitterInfo=()=>{
+    fetch(`https://typeahead-js-twitter-api-proxy.herokuapp.com/demo/search?q=${username}`)
+    .then(res=>res.json())
+    .then(data=>{
+      const twitter=data[0]
+      setAvatar(twitter.profile_image_url_https)
+      setName(twitter.name)
+      setUsername(twitter.screen_name)
+      setTweet(twitter.status.text)
+      setRetweet(twitter.status.retweet_count)
+      setLikes(twitter.status.favorite_count)
+    })
+  }
   return (
   <>
       <div className="tweet-settings">
@@ -110,12 +126,15 @@ function App() {
           </li>
           <button onClick={getImage}>Oluştur</button>
           <div className="download-url">
-            {image && <a href={image} download="tweet.png">Tweeti İndir</a>}
+            {image && <a href={image} ref={downloadRef} download="tweet.png">Tweeti İndir</a>}
           </div>
         </ul>
     </div>
   <div className="tweet-container">
-
+    <div className="fetch-info">
+      <input type="text" value={username} placeholder="Kullanıcı Bilgilerini Çek" onChange={(e)=>setUsername(e.target.value)}/>
+      <button onClick={fetchTwitterInfo}>Bilgileri Çek</button>
+    </div>
   <div className="tweet" ref={twref}>
    <div className='tweet-author'>
    {avatar &&  <img alt="profile"  src={avatar} /> || <AvatarLoader/>}

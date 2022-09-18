@@ -80,10 +80,35 @@ body{
       border-color:#4e555a ;
     }
   }
+  .download-url{
+    display: none;
+  }
 }
 .tweet-container{
   padding: 0 50px;
-
+  .fetch-info{
+    margin-bottom: 30px;
+    width:100%;
+    display: flex;
+    input{
+      flex: 1;
+      background-color: #2f3336;
+      height: 40px;
+      line-height: 40px;
+      border-radius: 3px 0 0 3px;
+      color: #fff;
+      padding: 0 15px;
+      font-size: 15px;
+    }
+    button{
+      height: 40px;
+      padding: 0 20px;
+      font-size: 15px;
+      color: #fff;
+      background-color: #1da1f2;
+      border-radius: 0 3px 3px 0 ;
+    }
+  }
 }
 .tweet{
   border: 1px solid #2f3336;
