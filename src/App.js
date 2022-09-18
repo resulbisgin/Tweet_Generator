@@ -2,11 +2,12 @@ import { useState ,createRef,useEffect} from "react";
 import {ReplyIcon,Retweet,Like, Share, Verified} from "./Icons"
 import { AvatarLoader } from "./Loaders";
 import { useScreenshot } from "use-react-screenshot";
-
+import {language} from "./Language"
 const tweetFormat=tweet=>{
   tweet=tweet.replace(/@([\wşçöğüıİ]+)/gi,'<span>@$1</span>')
   .replace(/#([\wşçöğüıİ]+)/gi,'<span>#$1</span>')
   .replace(/(https?:\/\/[\wşçöğüıİ\.\/]+)/,'<span>$1</span>')
+  .replace(/\n/g, '<br />');
   return tweet
 }
 
@@ -54,8 +55,13 @@ function App() {
   const [quoteTweets,setQuoteTweets]=useState(0);
   const [likes,setLikes]=useState(0);
   const [avatar,setAvatar]=useState();
+  const [lang,setLang]=useState('tr')
+  const [langtext,setLangtext]=useState()
   const [image, takeScreenshot] = useScreenshot()
   const getImage = () => takeScreenshot(twref.current)
+  useEffect(()=>{
+    setLangtext(language[lang])
+  },[lang])
 
     useEffect(()=>{
       if(image){
@@ -90,12 +96,12 @@ function App() {
   return (
   <>
       <div className="tweet-settings">
-        <h3>Tweet Ayarları</h3>
+        <h3>{langtext?.settings}</h3>
         <ul>
           <li>
             <input type="text" 
             className="input" 
-            placeholder="Ad Soyad"
+            placeholder={langtext?.name}
              value={name} 
              onChange={(e)=>setName(e.target.value)}
              />
@@ -103,7 +109,7 @@ function App() {
          <li>
             <input type="text"
              className="input"
-             placeholder="Kullanıcı Adı"
+             placeholder={langtext?.username}
              value={username} 
              onChange={(e)=>setUsername(e.target.value)}
                />
@@ -123,69 +129,75 @@ function App() {
             /> 
           </li>
           <li>
+            <label>Retweet</label>
             <input type="number"
              className="input"
-             placeholder="Retweet"
              value={retweet} 
              onChange={(e)=>setRetweet(e.target.value)}
                />
           </li>
           <li>
+          <label>{langtext?.quotation}</label>
             <input type="number"
-             className="input"
-             placeholder="Alıntılı Tweetler"
+             className="input"         
              value={quoteTweets} 
              onChange={(e)=>setQuoteTweets(e.target.value)}
                />
           </li>
+
           <li>
+          <label>{langtext?.likes}</label>
             <input type="number"
              className="input"
-             placeholder="Beğeni"
+          
              value={likes} 
              onChange={(e)=>setLikes(e.target.value)}
                />
           </li>
           <li>
-            <label>Doğrulanmış Hesap</label>
+            <label>{langtext?.verified}</label>
           <select onChange={(e)=>setIsverified(e.target.value)} defaultValue={isVerified}>
-            <option value="1">Evet</option>
-            <option value="0">Hayır</option>
+            <option value="1">{langtext?.check.yes}</option>
+            <option value="0">{langtext?.check.no}</option>
           </select>
           </li>
-          <button onClick={getImage}>Oluştur</button>
+          <button onClick={getImage}>{langtext?.create}</button>
           <div className="download-url">
             {image && <a href={image} ref={downloadRef} download="tweet.png">Tweeti İndir</a>}
           </div>
         </ul>
     </div>
   <div className="tweet-container">
+    <div className="app-language">
+      <span onClick={()=>setLang('tr')} className={lang ==='tr' && 'active'}>Türkçe</span>
+      <span onClick={()=>setLang('en')} className={lang === 'en' && 'active'}>English</span>
+    </div>
     <div className="fetch-info">
-      <input type="text" value={username} placeholder="Kullanıcı Bilgilerini Çek" onChange={(e)=>setUsername(e.target.value)}/>
-      <button onClick={fetchTwitterInfo}>Bilgileri Çek</button>
+      <input type="text" value={username} placeholder={langtext?.user_know} onChange={(e)=>setUsername(e.target.value)}/>
+      <button onClick={fetchTwitterInfo}>{langtext?.user_know1}</button>
     </div>
   <div className="tweet" ref={twref}>
    <div className='tweet-author'>
    {avatar &&  <img alt="profile"  src={avatar} /> || <AvatarLoader/>}
     <div>
-      <div className="name">{name||"Ad Soyad"}
+      <div className="name">{name||langtext?.name}
       {isVerified==1 && <Verified width='19' height="19"/>}
       </div>
-      <div className="username">@{username || "Kullanıcı Adı:"}</div>
+      <div className="username">@{username || langtext?.username}</div>
     </div>
    </div>
    <div className="tweet-content">
-    <p dangerouslySetInnerHTML={{__html: tweet && tweetFormat(tweet) || "Örnek Tweet"}}></p>
+    <p dangerouslySetInnerHTML={{__html: tweet && tweetFormat(tweet) || langtext?.example}}></p>
    </div>
    <div className="tweet-stats">
     <span>
       <b>{formatNumber(retweet)}</b>Retweet
     </span>
     <span>
-      <b>{formatNumber(quoteTweets)}</b>Alıntılı Tweetler
+      <b>{formatNumber(quoteTweets)}</b>{langtext?.quotation}
     </span>
     <span>
-      <b>{formatNumber(likes)}</b>Beğeni
+      <b>{formatNumber(likes)}</b>{langtext?.likes}
     </span>
    </div>
    <div className="tweet-actions">
