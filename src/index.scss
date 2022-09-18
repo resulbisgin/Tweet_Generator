@@ -24,7 +24,7 @@ body{
   border-right: 1px solid #2f3336;
   height: 100%;
   padding: 25px;
-  
+  overflow: auto;
   h3{
     font-size: 24px;
     font-weight: normal;
@@ -37,6 +37,12 @@ body{
       margin-bottom:20px ;
     }
   }
+  label {
+    font-size: 15px;
+    margin-bottom: 5px;
+    display: block;
+    color: #6e767d;
+  }
   .input{
     width: 100%;
     background-color: transparent;
@@ -48,6 +54,23 @@ body{
       color: #fff;
  
    
+    }
+    &:focus{
+      border-color:#4e555a ;
+    }
+  }
+  select{
+    width: 100%;
+    background-color: transparent;
+    border-bottom: 1px solid #2f3336;
+    color: #fff;
+    padding: 10px 0 15px ;
+    font-size: 15px;
+    option{
+      color: #111;
+    }
+    &::placeholder{
+      color: #fff;   
     }
     &:focus{
       border-color:#4e555a ;

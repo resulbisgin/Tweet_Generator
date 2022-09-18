@@ -2,12 +2,31 @@ import { useState ,createRef,useEffect} from "react";
 import {ReplyIcon,Retweet,Like, Share, Verified} from "./Icons"
 import { AvatarLoader } from "./Loaders";
 import { useScreenshot } from "use-react-screenshot";
+
 const tweetFormat=tweet=>{
   tweet=tweet.replace(/@([\wşçöğüıİ]+)/gi,'<span>@$1</span>')
   .replace(/#([\wşçöğüıİ]+)/gi,'<span>#$1</span>')
   .replace(/(https?:\/\/[\wşçöğüıİ\.\/]+)/,'<span>$1</span>')
   return tweet
 }
+
+function convertImgToBase64(url,callback,outputFormat){
+  const canvas=document.createElement('CANVAS');
+  const ctx=canvas.getContext('2d')
+  const img=new Image;
+  img.crossOrigin='Anonymous';
+  img.onload=function(){
+    canvas.height=img.height;
+    canvas.width=img.width;
+    ctx.drawImage(img,0,0);
+    const dataURL=canvas.toDataURL(outputFormat||'image/png');
+    callback.call(this,dataURL);
+    canvas=null;
+  }
+  img.src=url
+}
+ 
+
 function App() {
   const formatNumber = number => {
     if (!number) {
@@ -29,7 +48,7 @@ function App() {
   const downloadRef=createRef();
   const [name,setName]=useState();
   const [username,setUsername]=useState();
-  const [isVerified,setIsverified]=useState(false)
+  const [isVerified,setIsverified]=useState(0)
   const [tweet,setTweet]=useState();
   const [retweet,setRetweet]=useState(0);
   const [quoteTweets,setQuoteTweets]=useState(0);
@@ -57,7 +76,10 @@ function App() {
     .then(res=>res.json())
     .then(data=>{
       const twitter=data[0]
-      setAvatar(twitter.profile_image_url_https)
+
+      convertImgToBase64(twitter.profile_image_url_https,function(base64Image){
+        setAvatar(base64Image)
+      })
       setName(twitter.name)
       setUsername(twitter.screen_name)
       setTweet(twitter.status.text)
@@ -124,6 +146,13 @@ function App() {
              onChange={(e)=>setLikes(e.target.value)}
                />
           </li>
+          <li>
+            <label>Doğrulanmış Hesap</label>
+          <select onChange={(e)=>setIsverified(e.target.value)} defaultValue={isVerified}>
+            <option value="1">Evet</option>
+            <option value="0">Hayır</option>
+          </select>
+          </li>
           <button onClick={getImage}>Oluştur</button>
           <div className="download-url">
             {image && <a href={image} ref={downloadRef} download="tweet.png">Tweeti İndir</a>}
@@ -140,7 +169,7 @@ function App() {
    {avatar &&  <img alt="profile"  src={avatar} /> || <AvatarLoader/>}
     <div>
       <div className="name">{name||"Ad Soyad"}
-      {isVerified && <Verified width='19' height="19"/>}
+      {isVerified==1 && <Verified width='19' height="19"/>}
       </div>
       <div className="username">@{username || "Kullanıcı Adı:"}</div>
     </div>
