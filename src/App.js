@@ -75,9 +75,8 @@ function App() {
   useEffect(()=>{
     setLangtext(language[lang])
   },[lang])
-  const months = ["Oca", "Şub", "Mar", "Nis", "May", "Haz", "Tem", "Ağu", "Eyl", "Eki", "Kas", "Ara"];
-   const d1=new Date(date)
-   const month=months[d1.getMonth()];
+   const d1=new Date(date);
+   const month=langtext?.months[d1.getMonth()];
     useEffect(()=>{
       if(image){
       downloadRef.current.click();
@@ -110,13 +109,13 @@ function App() {
   }
 
   function formatAMPM(date) {
-    var hours = date.getHours();
-    var minutes = date.getMinutes();
-    var ampm = hours >= 12 ? 'pm' : 'am';
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let ampm = hours >= 12 ? `${langtext?.date_det.am}` : `${langtext?.date_det.ap}` ;
     hours = hours % 12;
     hours = hours ? hours : 12; // the hour '0' should be '12'
     minutes = minutes < 10 ? '0'+minutes : minutes;
-    var strTime = hours + ':' + minutes + ' ' + ampm;
+    let strTime = ampm +' ' + hours + ':' + minutes + ' ' ;
     return strTime;
   }
   return (
@@ -197,7 +196,7 @@ function App() {
           </select>
           </li>
           <li>
-            <label>Hangi Cihazdan</label>
+            <label>{langtext?.app}</label>
           <select value={apparatus} onChange={handleChange}>
           {options.map(option => (
            <option key={option.value} value={option.value}>
@@ -235,10 +234,10 @@ function App() {
     <p dangerouslySetInnerHTML={{__html: tweet && tweetFormat(tweet) || langtext?.example}}></p>
    </div>
    <div className="tweet-date">
-    <span >{} {d1.getHours()}:{d1.getMinutes()} · {  d1.getDate()} {month}  {d1.getFullYear()}  </span>
+    <span >{formatAMPM(d1)} · { d1.getDate()} {month}  {d1.getFullYear()}  </span>
     <span> · {apparatus}</span>
    </div>
-   <div className="tweet-stats">
+   <div className="tweet-stats">  
     <span>
       <b>{formatNumber(retweet)}</b>Retweet
     </span>

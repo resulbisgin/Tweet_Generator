@@ -13,7 +13,14 @@ const tr={
     example:'Örnek Tweet',
     user_know:'Kullanıcı Bilgilerini Çek',
     user_know1:'Bilgileri Çek',
-    date:'Tarih'
+    date:'Tarih',
+    date_det:{
+        am:'ÖÖ',
+        ap:'ÖS'
+    },
+    app:'Cihaz',
+    months : ["Oca", "Şub", "Mar", "Nis", "May", "Haz", "Tem", "Ağu", "Eyl", "Eki", "Kas", "Ara"]
+
 }
 const en={
     settings:'Tweet Settings',
@@ -30,7 +37,14 @@ const en={
     example:'Example Tweet',
     user_know:'User Get Information ',
     user_know1:'Information Get',
-    date:'Date'
+    date:'Date',
+    date_det:{
+        am:'AM',
+        ap:'AP'
+    },
+    app:'Device',
+    months : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
 }
 const language = {
     tr,
