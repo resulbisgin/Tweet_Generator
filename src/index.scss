@@ -1,3 +1,10 @@
+$darkmode:#000;
+$lightmode:#fff;
+$border_color:#2f3336;
+$button_color:#1da1f2;
+$gray_color:#6e767d;
+$gray_color1:#4e555a;
+//#71767b
 *{
   padding: 0;
   margin:0;
@@ -11,7 +18,7 @@
 html,
 body{
   height: 100%;
-  background-color: #000;
+  background-color: $darkmode;
 }
 #root{
   display: flex;
@@ -20,15 +27,15 @@ body{
 }
 .tweet-settings{
   flex:1;
-  color: #fff;
-  border-right: 1px solid #2f3336;
+  color:$lightmode;
+  border-right: 1px solid $border_color;
   height: 100%;
   padding: 25px;
   overflow: auto;
   h3{
     font-size: 24px;
     font-weight: normal;
-    border-bottom: 1px solid #2f3336;
+    border-bottom: 1px solid $border_color;
     padding-bottom:20px;
     margin-bottom: 20px;
   }
@@ -41,66 +48,66 @@ body{
     font-size: 15px;
     margin-bottom: 5px;
     display: block;
-    color: #6e767d;
+    color: $gray_color;
   }
   .input{
     width: 100%;
     background-color: transparent;
-    border-bottom: 1px solid #2f3336;
-    color: #fff;
+    border-bottom: 1px solid $border_color;
+    color: $lightmode;
     padding: 10px 0 15px ;
     font-size: 15px;
     &::placeholder{
-      color: #fff;
+      color: $lightmode;
  
    
     }
     &:focus{
-      border-color:#4e555a ;
+      border-color:$gray_color1 ;
     }
   }
   select{
     width: 100%;
     background-color: transparent;
-    border-bottom: 1px solid #2f3336;
-    color: #fff;
+    border-bottom: 1px solid $border_color;
+    color: $lightmode;
     padding: 10px 0 15px ;
     font-size: 15px;
     option{
       color: #111;
     }
     &::placeholder{
-      color: #fff;   
+      color: $lightmode;   
     }
     &:focus{
-      border-color:#4e555a ;
+      border-color:$gray_color1 ;
     }
   }
   button{
     width: 100%;
     height: 40px;
     border-radius: 3px;
-    color: #fff;
+    color: $lightmode;
     font-size: 16px;
-    background-color: #1da1f2;
+    background-color: $button_color;
     cursor: pointer;
   }
   textarea{
     width: 100%;
     background-color: transparent;
-    border-bottom: 1px solid #2f3336;
-    color: #fff;
+    border-bottom: 1px solid $border_color;
+    color: $lightmode;
     padding: 10px 0 15px ;
     font-size: 15px;
     line-height: 1.5;
     resize: none;
     &::placeholder{
-      color: #fff;
+      color: $lightmode;
 
    
     }
     &:focus{
-      border-color:#4e555a ;
+      border-color:$gray_color1 ;
     }
   }
   .download-url{
@@ -118,7 +125,7 @@ justify-content: center;
   padding: 0 50px;
   .app-language{
     margin-bottom: 15px;
-    color: rgba(#fff,0.5);
+    color: rgba($lightmode,0.5);
     font-size: 14px;
     text-align: center;
     position: absolute;
@@ -131,7 +138,7 @@ padding: 10px 0;
       cursor: pointer;
       transition: .5s;
       &.active{
-        color: #fff;
+        color: $lightmode;
       }
     }
   }
@@ -141,11 +148,11 @@ padding: 10px 0;
     display: flex;
     input{
       flex: 1;
-      background-color: #2f3336;
+      background-color: $border_color;
       height: 40px;
       line-height: 40px;
       border-radius: 3px 0 0 3px;
-      color: #fff;
+      color: $lightmode;
       padding: 0 15px;
       font-size: 15px;
     }
@@ -153,18 +160,18 @@ padding: 10px 0;
       height: 40px;
       padding: 0 20px;
       font-size: 15px;
-      color: #fff;
-      background-color: #1da1f2;
+      color: $lightmode;
+      background-color: $button_color;
       border-radius: 0 3px 3px 0 ;
     }
   }
 }
 .tweet{
-  border: 1px solid #2f3336;
+  border: 1px solid $border_color;
   width: 600px;
   margin: 25px auto;
   padding: 0 16px;
-  background-color: #000;
+  background-color: $darkmode;
   &-author{
     height: 48px;
     margin-top: 12px;
@@ -181,7 +188,7 @@ padding: 10px 0;
     }
     .name{
       
-      color:#fff;
+      color: $lightmode;
       font-weight: 700;
       display: flex;
       align-items: center;
@@ -191,7 +198,7 @@ padding: 10px 0;
       }
     }
     .username{
-      color: #6e767d;
+      color: $gray_color;
     }
   }
   &-content{
@@ -199,22 +206,29 @@ padding: 10px 0;
     p{
       font-size: 23px;
       line-height: 28px;
-      color: #fff;
+      color: $lightmode;
       overflow: hidden;
       span{
-        color: #1da1f2;
+        color: $button_color;
       }
     }
+  }
+  &-date{
+  padding:12px 0 ;
+  span{
+    font-size: 14px;
+    color:#71767b;
+  }
   }
   &-stats{
     height: 53px;
     display: flex;
-   border-top: 1px solid #2f3336;
+   border-top: 1px solid $border_color;
     align-items: center;
     font-size: 15px;
-    color: #6e767d;
+    color: $gray_color;
     b{
-      color: #fff;
+      color: $lightmode;
     }
     span:not(:last-child){
       margin-right: 20px;
@@ -224,7 +238,7 @@ padding: 10px 0;
   &-actions{
     height: 48px;
     display: flex;
-    border-top: 1px solid #2f3336;
+    border-top: 1px solid $border_color;
     align-items: center;
     justify-content: space-around;
   }

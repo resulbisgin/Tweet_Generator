@@ -12,7 +12,8 @@ const tr={
     create:'Oluştur',
     example:'Örnek Tweet',
     user_know:'Kullanıcı Bilgilerini Çek',
-    user_know1:'Bilgileri Çek'
+    user_know1:'Bilgileri Çek',
+    date:'Tarih'
 }
 const en={
     settings:'Tweet Settings',
@@ -28,7 +29,8 @@ const en={
     create:'Create',
     example:'Example Tweet',
     user_know:'User Get Information ',
-    user_know1:'Information Get'
+    user_know1:'Information Get',
+    date:'Date'
 }
 const language = {
     tr,

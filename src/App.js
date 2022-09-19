@@ -45,24 +45,39 @@ function App() {
       number[0] + (number[1] > 100 ? ',' + number[1].slice(0, 1) + ' B' : ' B')
     );
   };
+  const options = [
+    {value: 'Twitter Web App', text: 'Twitter Web App'},
+    {value: 'Twitter for iPhone', text: 'Twitter for iPhone'},
+    {value: 'Twitter for Android', text: 'Twitter for Android'}
+  ];
+  const handleChange = event => {
+    
+    setApparatus(event.target.value);
+  };
   const twref = createRef(null)
   const downloadRef=createRef();
   const [name,setName]=useState();
   const [username,setUsername]=useState();
   const [isVerified,setIsverified]=useState(0)
+  const [apparatus,setApparatus]=useState(options[0].value)
   const [tweet,setTweet]=useState();
   const [retweet,setRetweet]=useState(0);
   const [quoteTweets,setQuoteTweets]=useState(0);
   const [likes,setLikes]=useState(0);
   const [avatar,setAvatar]=useState();
   const [lang,setLang]=useState('tr')
+  const [date,setDate]=useState(0)
   const [langtext,setLangtext]=useState()
   const [image, takeScreenshot] = useScreenshot()
   const getImage = () => takeScreenshot(twref.current)
+
+
   useEffect(()=>{
     setLangtext(language[lang])
   },[lang])
-
+  const months = ["Oca", "Şub", "Mar", "Nis", "May", "Haz", "Tem", "Ağu", "Eyl", "Eki", "Kas", "Ara"];
+   const d1=new Date(date)
+   const month=months[d1.getMonth()];
     useEffect(()=>{
       if(image){
       downloadRef.current.click();
@@ -92,6 +107,17 @@ function App() {
       setRetweet(twitter.status.retweet_count)
       setLikes(twitter.status.favorite_count)
     })
+  }
+
+  function formatAMPM(date) {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return strTime;
   }
   return (
   <>
@@ -129,6 +155,15 @@ function App() {
             /> 
           </li>
           <li>
+            <label>{langtext?.date}</label>
+            <input type="datetime-local"
+             className="input"
+             value={date} 
+             onChange={(e)=>setDate(e.target.value)}
+               />
+          </li>
+          
+          <li>
             <label>Retweet</label>
             <input type="number"
              className="input"
@@ -144,7 +179,7 @@ function App() {
              onChange={(e)=>setQuoteTweets(e.target.value)}
                />
           </li>
-
+         
           <li>
           <label>{langtext?.likes}</label>
             <input type="number"
@@ -159,6 +194,16 @@ function App() {
           <select onChange={(e)=>setIsverified(e.target.value)} defaultValue={isVerified}>
             <option value="1">{langtext?.check.yes}</option>
             <option value="0">{langtext?.check.no}</option>
+          </select>
+          </li>
+          <li>
+            <label>Hangi Cihazdan</label>
+          <select value={apparatus} onChange={handleChange}>
+          {options.map(option => (
+           <option key={option.value} value={option.value}>
+          {option.text}
+          </option>
+        ))}
           </select>
           </li>
           <button onClick={getImage}>{langtext?.create}</button>
@@ -188,6 +233,10 @@ function App() {
    </div>
    <div className="tweet-content">
     <p dangerouslySetInnerHTML={{__html: tweet && tweetFormat(tweet) || langtext?.example}}></p>
+   </div>
+   <div className="tweet-date">
+    <span >{} {d1.getHours()}:{d1.getMinutes()} · {  d1.getDate()} {month}  {d1.getFullYear()}  </span>
+    <span> · {apparatus}</span>
    </div>
    <div className="tweet-stats">
     <span>
