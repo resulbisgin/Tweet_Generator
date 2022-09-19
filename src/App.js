@@ -96,7 +96,6 @@ function App() {
     .then(res=>res.json())
     .then(data=>{
       const twitter=data[0]
-
       convertImgToBase64(twitter.profile_image_url_https,function(base64Image){
         setAvatar(base64Image)
       })
@@ -105,6 +104,7 @@ function App() {
       setTweet(twitter.status.text)
       setRetweet(twitter.status.retweet_count)
       setLikes(twitter.status.favorite_count)
+      setDate(twitter.status.created_at)
     })
   }
 
